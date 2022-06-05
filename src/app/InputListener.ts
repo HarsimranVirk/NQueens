@@ -14,10 +14,15 @@ class InputListener {
 
   private addEventListeners() {
     this.inputEl.addEventListener('change', this.inputElListener.bind(this));
+    this.retryButton.addEventListener('click', this.retryButtonListener.bind(this));
   }
 
   private inputElListener(e: Event) {
     this.chessboard?.notifySizeChange(parseInt((e.target as HTMLInputElement)?.value));
+  }
+
+  private retryButtonListener(e: Event) {
+    this.chessboard?.notifyRetry();
   }
 }
 

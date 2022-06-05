@@ -3,11 +3,14 @@ import Logger from "./Logger";
 class Chessboard {
   public static MAX_SIZE = 9;
   public static MIN_SIZE = 4;
+  public static TIMEOUT_MULT = 200;
 
   private size = 4;
   private div: HTMLDivElement | null = null;
   private solutions: string[][] = new Array();
   private mapIndex: Map<number, number> = new Map();
+  private clickListenerActivate = true;
+  private queens: HTMLSpanElement[] = new Array();
 
   constructor(attachToDiv: HTMLDivElement) {
     this.div = attachToDiv;
@@ -21,10 +24,16 @@ class Chessboard {
   public notifySizeChange(size: number) {
     if (size >= Chessboard.MIN_SIZE && size <= Chessboard.MAX_SIZE) {
       this.size = size;
+      this.clickListenerActivate = true;
       Logger.log(`Size ${this.size}`);
       this.solve();
       this.renderChessboard();
     }
+  }
+
+  public notifyRetry() {
+    this.queens.forEach((queen) => queen.style.opacity = '0');
+    this.clickListenerActivate = true;
   }
 
   public solve() {
@@ -86,6 +95,7 @@ class Chessboard {
     if (this.div !== null) {
       const size = this.size;
       this.div.replaceChildren();
+      this.queens.length = 0;
       this.div.style.gridTemplateColumns = `repeat(${this.size}, 1fr)`;
       this.div.style.gridTemplateRows = `repeat(${this.size}, 1fr)`;
       for (let row = 0; row < size; row++) {
@@ -96,18 +106,42 @@ class Chessboard {
           } else {
             el.className = 'red cell';
           }
-          el.addEventListener('click', (ev) => this.cellClickListener(ev, row, col));
           this.div.appendChild(el);
+          const queenEl = document.createElement('span');
+          this.queens.push(queenEl);
+          if (queenEl) {
+            el.replaceChildren();
+            queenEl.className = "queen";
+            el.appendChild(queenEl);
+          }
+          el.addEventListener('click', (ev) => this.cellClickListener(ev, row, col));
         }
       }
     }
   }
+
+  private showDominoEffect(row: number, col: number, timeoutRank: number) {
+    const size = this.size;
+    setTimeout(() => this.queens[size*(row) + col].style.opacity = '1', timeoutRank*Chessboard.TIMEOUT_MULT); 
+  }
+
   private cellClickListener(ev: Event, row: number, col: number) {
-    const idx = this.mapIndex.get(this.size*row + col);
-    if (idx) {
-      console.log(this.solutions[idx]);
+    if (this.clickListenerActivate) {
+      this.clickListenerActivate = false;
+      const idx = this.mapIndex.get(this.size*row + col);
+      if (idx) {
+        const size = this.size;
+        const sol = this.solutions[idx];
+        for (let i = 0; i < size; i++) {
+          for (let j = 0; j < size; j++) {
+            if (row + i < size && sol[row + i][j] == 'q')
+              this.showDominoEffect(row+i, j, i);
+            if (row - i >= 0 && sol[row - i][j] == 'q')
+              this.showDominoEffect(row-i, j, i);
+          }
+        }
+      }
     }
-    
   }
 }
 

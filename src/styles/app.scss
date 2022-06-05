@@ -2,16 +2,26 @@
 
 $font-stack: Montserrat, Helvetica, sans-serif;
 $primary-color: #333;
+$transition-time: 0.2s;
+$cell-background: #ccc;
+$green-hover: rgb(99, 147, 98);
+$red-hover: rgb(221, 103, 103);
 
 html {
   height: 100vh;
   overflow: hidden;
+  box-sizing: border-box;
+  padding: 0;
 }
 
 body {
   font-family: $font-stack;
   color: $primary-color;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
   overflow: scroll;
+  overflow-x: hidden;
   scroll-snap-type: y mandatory;
   height: 100vh;
 }
@@ -24,7 +34,14 @@ section {
   height: 100vh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  padding: 2rem;
+  padding-top: 2rem;
+  position: relative;
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
 }
 
 .center {
@@ -43,15 +60,28 @@ section {
   width: 75vmin;
   height: 75vmin;
   .cell {
-    background-color: #ccc;
+    background-color: $cell-background;
     height: 100%;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .queen {
+      height: 50%;
+      width: 50%;
+      opacity: 0;
+      background-image: url(../assets/queen.png);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: all ease-in $transition-time;
+    }
   }
   .green:hover {
-    background-color: rgb(99, 147, 98);
+    background-color: $green-hover;
   }
   .red:hover {
-    background-color: rgb(221, 103, 103);
+    background-color: $red-hover;
   }
 }
 
@@ -61,5 +91,50 @@ section {
   margin: 0.5rem;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.scroll {
+  width: 60px;
+  height: 60px;
+  border: 2px solid #333;
+  border-radius: 50%;
+  position: relative;
+  animation: down 1.5s infinite;
+  -webkit-animation: down 1.5s infinite;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 18px;
+    width: 18px;
+    height: 18px;
+    border-left: 2px solid #333;
+    border-bottom: 2px solid #333;
+    transform: rotate(-45deg);
+  }
+}
+
+@keyframes down {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translateY(15px);
+  }
+  40% {
+    transform: translate(0);
+  }
+}
+
+@-webkit-keyframes down {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translateY(15px);
+  }
+  40% {
+    transform: translate(0);
+  }
 }
 
