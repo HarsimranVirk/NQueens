@@ -28,19 +28,20 @@ body {
 
 .text-center {
   text-align: center;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
 
 section {
   height: 100vh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  padding-top: 2rem;
   position: relative;
   .footer {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
   }
 }
 
@@ -48,6 +49,10 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.pt {
+  padding-top: 1.25rem;
 }
 
 .mt {
