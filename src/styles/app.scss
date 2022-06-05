@@ -1,0 +1,65 @@
+@use "font.scss";
+
+$font-stack: Montserrat, Helvetica, sans-serif;
+$primary-color: #333;
+
+html {
+  height: 100vh;
+  overflow: hidden;
+}
+
+body {
+  font-family: $font-stack;
+  color: $primary-color;
+  overflow: scroll;
+  scroll-snap-type: y mandatory;
+  height: 100vh;
+}
+
+.text-center {
+  text-align: center;
+}
+
+section {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding: 2rem;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mt {
+  margin-top: 1.25rem;
+}
+
+.chessboard {
+  display: grid;
+  grid-gap: 10px;
+  width: 75vmin;
+  height: 75vmin;
+  .cell {
+    background-color: #ccc;
+    height: 100%;
+    width: 100%;
+  }
+  .green:hover {
+    background-color: rgb(99, 147, 98);
+  }
+  .red:hover {
+    background-color: rgb(221, 103, 103);
+  }
+}
+
+.button {
+  background-color: greenyellow;
+  padding: 1rem;
+  margin: 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
