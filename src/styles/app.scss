@@ -102,7 +102,7 @@ section {
   animation: down 1.5s infinite;
   -webkit-animation: down 1.5s infinite;
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 15px;
     left: 18px;
@@ -137,4 +137,3 @@ section {
     transform: translate(0);
   }
 }
-

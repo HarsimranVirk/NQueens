@@ -32,21 +32,21 @@ class Chessboard {
   }
 
   public notifyRetry() {
-    this.queens.forEach((queen) => queen.style.opacity = '0');
+    this.queens.forEach((queen) => (queen.style.opacity = "0"));
     this.clickListenerActivate = true;
   }
 
   public solve() {
     this.solutions.length = 0;
 
-    const size = this.size
+    const size = this.size;
 
     const pSol: string[] = new Array();
 
     for (let i = 0; i < size; i++) {
       pSol.push(".".repeat(size));
-    } 
-    
+    }
+
     this._solve(0, Array.from(pSol));
     this._indexSolution();
   }
@@ -60,7 +60,7 @@ class Chessboard {
     for (let i = 0; i < this.size; i++) {
       if (this._isValid(row, i, pSol)) {
         const newPSol = Array.from(pSol);
-        newPSol[row] =  ".".repeat(i) + 'q' + ".".repeat(this.size - i - 1);
+        newPSol[row] = ".".repeat(i) + "q" + ".".repeat(this.size - i - 1);
         this._solve(row + 1, newPSol);
       }
     }
@@ -68,12 +68,9 @@ class Chessboard {
 
   private _isValid(row: number, col: number, pSol: string[]) {
     for (let i = 0; row - i >= 0; i++) {
-      if (pSol[i][col] === "q")
-        return false;
-      if (col-i >= 0 && pSol[row-i][col-i] === "q")
-        return false;
-        if (col+i < this.size && pSol[row-i][col+i] === "q")
-        return false;
+      if (pSol[i][col] === "q") return false;
+      if (col - i >= 0 && pSol[row - i][col - i] === "q") return false;
+      if (col + i < this.size && pSol[row - i][col + i] === "q") return false;
     }
 
     return true;
@@ -84,11 +81,9 @@ class Chessboard {
     this.solutions.map((sol, idx) => {
       sol.map((row, rid) => {
         for (let i = 0; i < size; i++)
-          if (row[i] === 'q')
-            this.mapIndex.set(size * rid + i, idx);
-      })
-    })
-    
+          if (row[i] === "q") this.mapIndex.set(size * rid + i, idx);
+      });
+    });
   }
 
   public renderChessboard() {
@@ -99,22 +94,24 @@ class Chessboard {
       this.div.style.gridTemplateColumns = `repeat(${this.size}, 1fr)`;
       this.div.style.gridTemplateRows = `repeat(${this.size}, 1fr)`;
       for (let row = 0; row < size; row++) {
-        for(let col = 0; col < size; col++) {
-          const el = document.createElement('div');
-          if (this.mapIndex.get(row*size + col)) {
-            el.className = 'green cell';
+        for (let col = 0; col < size; col++) {
+          const el = document.createElement("div");
+          if (this.mapIndex.get(row * size + col)) {
+            el.className = "green cell";
           } else {
-            el.className = 'red cell';
+            el.className = "red cell";
           }
           this.div.appendChild(el);
-          const queenEl = document.createElement('span');
+          const queenEl = document.createElement("span");
           this.queens.push(queenEl);
           if (queenEl) {
             el.replaceChildren();
             queenEl.className = "queen";
             el.appendChild(queenEl);
           }
-          el.addEventListener('click', (ev) => this.cellClickListener(ev, row, col));
+          el.addEventListener("click", (ev) =>
+            this.cellClickListener(ev, row, col)
+          );
         }
       }
     }
@@ -122,22 +119,25 @@ class Chessboard {
 
   private showDominoEffect(row: number, col: number, timeoutRank: number) {
     const size = this.size;
-    setTimeout(() => this.queens[size*(row) + col].style.opacity = '1', timeoutRank*Chessboard.TIMEOUT_MULT); 
+    setTimeout(
+      () => (this.queens[size * row + col].style.opacity = "1"),
+      timeoutRank * Chessboard.TIMEOUT_MULT
+    );
   }
 
   private cellClickListener(ev: Event, row: number, col: number) {
     if (this.clickListenerActivate) {
       this.clickListenerActivate = false;
-      const idx = this.mapIndex.get(this.size*row + col);
+      const idx = this.mapIndex.get(this.size * row + col);
       if (idx) {
         const size = this.size;
         const sol = this.solutions[idx];
         for (let i = 0; i < size; i++) {
           for (let j = 0; j < size; j++) {
-            if (row + i < size && sol[row + i][j] == 'q')
-              this.showDominoEffect(row+i, j, i);
-            if (row - i >= 0 && sol[row - i][j] == 'q')
-              this.showDominoEffect(row-i, j, i);
+            if (row + i < size && sol[row + i][j] == "q")
+              this.showDominoEffect(row + i, j, i);
+            if (row - i >= 0 && sol[row - i][j] == "q")
+              this.showDominoEffect(row - i, j, i);
           }
         }
       }

@@ -1,7 +1,7 @@
-import '../styles/app.scss'; 
-import Chessboard from './Chessboard';
-import InputListener from './InputListener';
-import Logger from './Logger';
+import "../styles/app.scss";
+import Chessboard from "./Chessboard";
+import InputListener from "./InputListener";
+import Logger from "./Logger";
 
 Logger.log("Binding inputs");
 
