@@ -96,6 +96,9 @@ section {
   margin: 0.5rem;
   border-radius: 5px;
   cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .scroll {

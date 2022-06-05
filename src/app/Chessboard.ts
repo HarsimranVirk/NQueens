@@ -127,9 +127,9 @@ class Chessboard {
 
   private cellClickListener(ev: Event, row: number, col: number) {
     if (this.clickListenerActivate) {
-      this.clickListenerActivate = false;
       const idx = this.mapIndex.get(this.size * row + col);
       if (idx) {
+        this.clickListenerActivate = false;
         const size = this.size;
         const sol = this.solutions[idx];
         for (let i = 0; i < size; i++) {
