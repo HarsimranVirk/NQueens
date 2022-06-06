@@ -13,6 +13,13 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
+        test: /meta-image\.png/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'meta-image.png'
+        }
+      },
+      {
         test: /\.(png|svg|jpg|jpeg|gif|ico)$/i,
         type: 'asset/resource',
       },

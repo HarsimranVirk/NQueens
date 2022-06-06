@@ -1,4 +1,5 @@
 import "../styles/app.scss";
+import "../assets/meta-image.png";
 import Chessboard from "./Chessboard";
 import InputListener from "./InputListener";
 import Logger from "./Logger";
